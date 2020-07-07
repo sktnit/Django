@@ -1,84 +1,188 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!--Typed.js-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/typed.js"></script>
 
     <title>TextUtility</title>
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/">TextUtility</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <style>
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: black;
+            color: white;
+            text-align: center;
+            display: block;
+        }
+    </style>
+</head>
 
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/about">About Us</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/navigation">Navigation</a>
-      </li>
-    </ul>
-  </div>
-  <form class="form-inline">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-  </form>
-</nav>
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-  <strong>Welcome to TextUtlitiy</strong> You can perform utility for text.
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<div class='container'>
-<form action='/analyze' method='post'>{% csrf_token %}
-  <div class="form-group">
-    <label for="exampleFormControlTextarea1">Enter Text Here!</label>
-    <textarea class="form-control" name='text' id="exampleFormControlTextarea1" rows="10"></textarea>
-  </div>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">TextUtility</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/navigation">Navigation</a>
+                </li>
+            </ul>
+        </div>
+        <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </nav>
 
-<div class="custom-control custom-switch">
-  <input type="checkbox" name='remvpunc' class="custom-control-input" id="customSwitch1">
-  <label class="custom-control-label" for="customSwitch1">Remove Punctuation</label>
-</div>
-<div class="custom-control custom-switch">
-  <input type="checkbox" name='uppercase' class="custom-control-input" id="customSwitch2">
-  <label class="custom-control-label" for="customSwitch2">Upper Case</label>
-</div>
-<div class="custom-control custom-switch">
-  <input type="checkbox" name='lowercase' class="custom-control-input" id="customSwitch3">
-  <label class="custom-control-label" for="customSwitch3">Lower Case</label>
-</div>
-<div class="custom-control custom-switch">
-  <input type="checkbox" name='countchar' class="custom-control-input" id="customSwitch4">
-  <label class="custom-control-label" for="customSwitch4">Count Char</label>
-</div>
-<div class="custom-control custom-switch">
-  <input type="checkbox" name='countwords' class="custom-control-input" id="customSwitch5">
-  <label class="custom-control-label" for="customSwitch5">Count Words</label>
-</div>
-<div class="custom-control custom-switch">
-  <input type="checkbox" name='newlineremover' class="custom-control-input" id="customSwitch6">
-  <label class="custom-control-label" for="customSwitch6">Newline Remover</label>
-</div>
-<button type="submit" class="btn btn-success mt-2">Analyze Text</button>
-</form>
-</div>
+
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Welcome to TextUtility!</strong> You can do anything with your text here!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+    <div class="container">
+
+        <form action="/analyze" onsubmit="return validate()" method="post"> {% csrf_token %}
+
+
+
+            <div class="form-group">
+                <h3><span id="typed"></span></h3>
+
+                <textarea class="form-control" name='text' id="exampleFormControlTextarea1" rows="20"></textarea>
+
+                <!-- Word Counter -->
+                <p>
+                    <span id="countChar">0</span> Characters,
+                    <span id="countWord">0</span> Words
+                    {% comment %} <span id="charCount">0</span> Characters,
+                    <span id="wordCount">0</span> Words
+                    <script type="text/javascript">
+                        var exampleFormControlTextarea1 = document.getElementById("exampleFormControlTextarea1");
+                        var charCount = document.getElementById("charCount");
+
+                        exampleFormControlTextarea1.addEventListener("keyup", function () {
+
+                            var characters = exampleFormControlTextarea1.value.trim().replace(/^\s*|\s*$/g, '').split('');
+                            charCount.innerText = characters.length;
+                        });
+                    </script> {% endcomment %}
+                    <script>
+                        function count_word(val) {
+                            var wom = val.match(/\S+/g);
+                            return {
+                                words: wom ? wom.length : 0
+                            };
+                        }
+
+                        var textContent = document.getElementById("exampleFormControlTextarea1");
+                        var showWordCount = document.getElementById("countWord");
+                        var countChar = document.getElementById("countChar");
+
+                        textContent.addEventListener("input", function () {
+                            var v = count_word(this.value);
+                            showWordCount.innerHTML = v.words;
+                        }, false);
+
+                        textContent.addEventListener("input", function () {
+                            var v = textContent.value.trim().split("");
+                            countChar.innerHTML = v.length;
+                        }, false);
+
+
+                    </script>
+                </p>
+            </div>
+
+            <div id="messageofvalidate"></div>
+
+            <div class="custom-control custom-switch">
+                <input type="checkbox" name='remvpunc' class="custom-control-input" id="customSwitch1">
+                <label class="custom-control-label" for="customSwitch1">Remove Punctuation</label>
+            </div>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" name='uppercase' class="custom-control-input" id="customSwitch2">
+                <label class="custom-control-label" for="customSwitch2">Upper Case</label>
+            </div>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" name='lowercase' class="custom-control-input" id="customSwitch3">
+                <label class="custom-control-label" for="customSwitch3">Lower Case</label>
+            </div>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" name='newlineremover' class="custom-control-input" id="customSwitch6">
+                <label class="custom-control-label" for="customSwitch6">Newline Remover</label>
+            </div>
+            <button type="submit" class="btn btn-success mt-2">Analyze Text</button>
+        </form>
+    </div>
+
+    <div id="typed-strings">
+    </div>
+
+    <script>
+        var typed = new Typed('#typed', {
+            strings: ["Please type the Text Here To Analyze and See the Magic!"],
+            backSpeed: 50,
+            smartBackspace: true,
+            backDelay: 1500,
+            startDelay: 1000,
+            typeSpeed: 25,
+            loop: false,
+
+        });
+    </script>
+    <!-- Footer-->
+    <footer class="footer">
+        <div class="container">
+            <span class="text-light">&#169 2020 TextUtility </span>
+        </div>
+    </footer>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-  </body>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <script>
+        function validate() {
+            var textarea = document.getElementById('exampleFormControlTextarea1').value;
+            var span = document.getElementById('messageofvalidate');
+
+            if (textarea == '') {
+                span.innerHTML = 'Please Write Your Message';
+                return false;
+            }
+
+        }
+    </script>
+</body>
+
 </html>
