@@ -77,42 +77,6 @@
                 <p>
                     <span id="countChar">0</span> Characters,
                     <span id="countWord">0</span> Words
-                    {% comment %} <span id="charCount">0</span> Characters,
-                    <span id="wordCount">0</span> Words
-                    <script type="text/javascript">
-                        var exampleFormControlTextarea1 = document.getElementById("exampleFormControlTextarea1");
-                        var charCount = document.getElementById("charCount");
-
-                        exampleFormControlTextarea1.addEventListener("keyup", function () {
-
-                            var characters = exampleFormControlTextarea1.value.trim().replace(/^\s*|\s*$/g, '').split('');
-                            charCount.innerText = characters.length;
-                        });
-                    </script> {% endcomment %}
-                    <script>
-                        function count_word(val) {
-                            var wom = val.match(/\S+/g);
-                            return {
-                                words: wom ? wom.length : 0
-                            };
-                        }
-
-                        var textContent = document.getElementById("exampleFormControlTextarea1");
-                        var showWordCount = document.getElementById("countWord");
-                        var countChar = document.getElementById("countChar");
-
-                        textContent.addEventListener("input", function () {
-                            var v = count_word(this.value);
-                            showWordCount.innerHTML = v.words;
-                        }, false);
-
-                        textContent.addEventListener("input", function () {
-                            var v = textContent.value.trim().split("");
-                            countChar.innerHTML = v.length;
-                        }, false);
-
-
-                    </script>
                 </p>
             </div>
 
@@ -141,6 +105,15 @@
     <div id="typed-strings">
     </div>
 
+    <!-- Footer-->
+    <footer class="footer">
+        <div class="container">
+            <span class="text-light">&#169 2020 TextUtility </span>
+        </div>
+    </footer>
+
+
+    <!-- Scripts starts from here -->
     <script>
         var typed = new Typed('#typed', {
             strings: ["Please type the Text Here To Analyze and See the Magic!"],
@@ -152,13 +125,44 @@
             loop: false,
 
         });
+
+        function validate() {
+            var textarea = document.getElementById('exampleFormControlTextarea1').value;
+            var span = document.getElementById('messageofvalidate');
+
+            if (textarea == '') {
+                span.innerHTML = 'Please Write Your Message';
+                return false;
+            }
+
+        }
+
+        //  Word Counter
+        function count_word(val) {
+            var wom = val.match(/\S+/g);
+            return wom;
+        }
+
+        var textContent = document.getElementById("exampleFormControlTextarea1");
+        var showWordCount = document.getElementById("countWord");
+        var countChar = document.getElementById("countChar");
+
+        textContent.addEventListener("input", function () {
+            try {
+                var word_arr = count_word(this.value);
+                var char_count = 0;
+                word_arr.forEach(element => {
+                    char_count = char_count + element.length;
+                    console.log(word_arr)
+                });
+                countChar.innerHTML = char_count;
+                showWordCount.innerHTML = word_arr ? word_arr.length : 0;
+            } catch (err) {
+                countChar.innerHTML = 0;
+                showWordCount.innerHTML = 0;
+            }
+        }, false);
     </script>
-    <!-- Footer-->
-    <footer class="footer">
-        <div class="container">
-            <span class="text-light">&#169 2020 TextUtility </span>
-        </div>
-    </footer>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -171,18 +175,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
-    <script>
-        function validate() {
-            var textarea = document.getElementById('exampleFormControlTextarea1').value;
-            var span = document.getElementById('messageofvalidate');
 
-            if (textarea == '') {
-                span.innerHTML = 'Please Write Your Message';
-                return false;
-            }
-
-        }
-    </script>
 </body>
 
 </html>
